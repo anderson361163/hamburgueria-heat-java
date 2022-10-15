@@ -1,0 +1,24 @@
+{% extends "listing_base.j2" %}
+{% block table_body %}
+{% for row in data %}
+    <tr>
+        <td>
+            {{row.name}}
+        </td>
+        <td>
+            {{row.username}}
+        </td>
+        <td>
+            {{row.email}}
+        </td>
+        <td>
+            {{row.role.description}}
+        </td>
+        <td>
+            <a href="/admin/user/{{row.id}}">
+                <img src="/static/images/eye.svg" alt="Visualizar"/>
+            </a>
+        </td>
+    </tr>
+{% endfor %}
+{% endblock  %}

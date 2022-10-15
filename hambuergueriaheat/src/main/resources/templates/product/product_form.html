@@ -1,0 +1,149 @@
+{% extends "admin_base.j2" %}
+{% block aditional_header %}
+    <script src="/static/scripts/createMasks.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            if (!document.getElementById('img-preview').src) {
+                document.getElementById('preview-container').style.display = "none";
+            }
+        });
+
+        function deleteProduct() {
+            if (!confirm("Você tem certeza?")) return;
+            xhr = new XMLHttpRequest();
+            xhr.open('DELETE', "/admin/product/{{product.id}}");
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.readyState !== 4) return;
+                if (xhr.status === 200 || xhr.status === 404) {
+                    window.location.replace("{{url_for("product.index")}}");
+                } else {
+                    alert('Erro ' + xhr.status);
+                }
+            };
+            xhr.send();
+        }
+
+        function createURL(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('img-preview').src = URL.createObjectURL(input.files[0]);
+                document.getElementById('preview-container').style.display = 'block';
+            } else {
+                document.getElementById('preview-container').style.display = 'none';
+            }
+        }
+
+        function saveProduct() {
+            let nameInput = $('#name');
+            let priceInput = $('#price');
+            let categoryInput = $('#category');
+            let descriptionInput = $('#description');
+            let err = 0;
+
+            nameInput.removeClass('invalid');
+            priceInput.removeClass('invalid');
+            categoryInput.removeClass('invalid');
+            descriptionInput.removeClass('invalid');
+
+            $('#name-invalid #price-invalid #category-invalid #description-invalid').hide();
+
+            if (!nameInput.val() || nameInput.length > 150) {
+                nameInput.addClass('invalid');
+                $('#name-invalid').show();
+                err++;
+            }
+
+            let priceAsNumber = !priceInput.val() ? null : parseFloat(priceInput.val().replace(".", "").replace(",", "."))
+
+            if (priceAsNumber <= 0) {
+                priceInput.addClass('invalid');
+                $('#price-invalid').show();
+                err++;
+            }
+
+            if (!categoryInput.val()) {
+                categoryInput.addClass('invalid');
+                $('#category-invalid').show();
+                err++;
+            }
+
+            if (!descriptionInput.val() || descriptionInput.val().length > 255) {
+                descriptionInput.addClass('invalid');
+                $('#description-invalid').show();
+                err++;
+            }
+
+            if (err > 0) {
+                return false;
+            }
+
+            priceInput.unmask();
+            priceInput.val(priceAsNumber);
+
+            $('#form').submit();
+        }
+    </script>
+{% endblock %}
+{% block content %}
+<h2 class="page-title">{{title}}</h2>
+<div class="d-flex justify-content-center align-items-center">
+    <form id="form" class="form-style card" method="POST" action="{{action}}" enctype="multipart/form-data" novalidate>
+        <div class="form-group">
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name"  maxlength="150" class="form-control" required value="{{product.name}}"/>
+            <div id="name-invalid" class="invalid-field">
+                Preencha o campo nome
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantidade</label>
+            <input type="text" id="quantity" name="quantity" maxlength="5" class="form-control" value="{{product.quantity}}"/>
+        </div>
+        <div class="form-group">
+            <label for="price">Preço</label>
+            <input type="text" id="price" name="price" class="form-control" maxlength="9" required value="{{product.price}}"/>
+            <div id="price-invalid" class="invalid-field">
+                Preencha com um valor maior que 0
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="category">Categoria</label>
+            <select type="text" id="category" name="category" class="form-control" required>
+                {% for category in categories %}
+                <option value="{{category.id}}" {% if product.category_id==category.id %}selected{% endif %}>
+                    {{category.name}}
+                </option>
+                {% endfor %}
+            </select>
+            <div id="category-invalid" class="invalid-field">
+                Selecione uma categoria
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="fileInput" class="form-label">Imagem</label>
+            <input class="form-control" type="file" id="fileInput" name="file" onchange="createURL(this)">
+        </div>
+        <div id="preview-container" class="image-preview-container">
+            {% if product.photo_url %}
+                <img id="img-preview" src="{{ url_for('product.download_file', file_id=product.photo_url) }}" class="image-preview" alt="{{product.name}}">
+            {% else %}
+                <img id="img-preview" class="image-preview" alt="preview">
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="description">Descrição</label>
+            <textarea class="form-control" id="description" name="description" rows="3" size="3" maxlength="255" required>{{product.description}}</textarea>
+            <div id="description-invalid" class="invalid-field">
+                Preencha o campo descrição
+            </div>
+        </div>
+        <div class="form-group d-flex justify-content-between">
+            <button type="button" class="btn button-outlined" onClick="history.back()">Cancelar</button>
+            {% if product %}
+            <button type="button" class="btn button-outlined" onClick="deleteProduct()">Excluir</button>
+            {% endif %}
+            <button type="button" class="btn button-dark" onClick="saveProduct()">Salvar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

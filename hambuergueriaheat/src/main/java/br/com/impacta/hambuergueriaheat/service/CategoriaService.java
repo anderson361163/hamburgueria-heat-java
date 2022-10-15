@@ -1,16 +1,20 @@
 package br.com.impacta.hambuergueriaheat.service;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.Getter;
-import lombok.Setter;
+import br.com.impacta.hambuergueriaheat.model.Categoria;
+import br.com.impacta.hambuergueriaheat.repository.CategoriaRepository;
 
 @Service
 public class CategoriaService {
 	
+	@Autowired
+	private CategoriaRepository categoriaRepository;
+	
+	public List<Categoria> listarTodasCategorias(){
+		return categoriaRepository.findAll();
+	}
 }
