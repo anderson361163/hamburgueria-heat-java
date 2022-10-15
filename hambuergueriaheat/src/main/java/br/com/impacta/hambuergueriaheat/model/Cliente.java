@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Client {
+public class Cliente {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -23,6 +23,7 @@ public class Client {
 	private String numero;
 	private String distrito;
 	private String email;
-	private Order orders;
+	
+	//private Ordem orders;
 	
 }
