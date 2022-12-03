@@ -1,0 +1,22 @@
+<!-- {% extends "listing_base.j2" %}
+{% block table_body %} -->
+<div th:insert="@{cabecalho/listing_base.html}"></div>
+<!-- {% for row in data %} -->
+<div th:each="row : ${data}">
+    <tr>
+        <td>
+            [[${row.name}]]
+        </td>
+        <td>
+            [[${row.description}]]
+        </td>
+        <td>
+            <a th:href="@{/admin/category/[[${row.id}]]}">
+                <img th:src="@{/images/eye.svg}" alt="Visualizar"/>
+            </a>
+        </td>
+    </tr>
+</div>
+<!-- {% endfor %} -->
+<!-- {% endblock  %} -->
+<div th:insert="@{cabecalho/rodape.html}"></div>

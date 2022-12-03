@@ -11,7 +11,7 @@
             xhr.onload = function() {
                 if (xhr.readyState !== 4) return;
                 if (xhr.status === 200 || xhr.status === 404) {
-                    window.location.replace("{{url_for("client.index")}}");
+                    //window.location.replace("{{url_for("client.index")}}");
                 } else {
                     alert('Erro ' + xhr.status);
                 }

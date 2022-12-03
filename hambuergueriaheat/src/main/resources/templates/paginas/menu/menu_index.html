@@ -14,18 +14,20 @@
 <!-- {% for category in categories %} -->
 <div th:each="category : ${categorias}">
 
-	<button class="accordion-toggle">[[${category.name}]]</button>
+	<button class="accordion-toggle">
+	
+	<!-- [[${category.name}]] --></button>
 	<div class="products-panel">
 		<!-- {% for product in category.products %} -->
-		<div th:each="product ${products}">
+		<!-- <div th:each="product : ${category.products}"> -->
 			<div class="card card-margin" style="width: 18rem;">
 				<div class="product-image-container">
 					<!-- {% if product.photo_url %} -->
 					<div th:switch="product.photo_url">   
 						<div th:case="product.photo_url">
-							<img class="product-image"
+							<!-- <img class="product-image"
 								src="{{ url_for('product.download_file', file_id=product.photo_url) }}"
-								alt="Card image cap">
+								alt="Card image cap"> -->
 						</div>
 						<!-- {% else %} -->
 						<div th:case="*">
@@ -36,21 +38,21 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<h5 class="card-title">[[${product.name}]]</h5>
+					<h5 class="card-title"><!-- [[${product.name}]] --></h5>
 					<p class="card-text" style="height: 72px;">
 					<div th:switch="product.description">
 						<!-- {% if product.description | length > 83 %} -->
 						<div th:case="product.description.length > 83">
-							[[${product.description[:80]}]] ...</div>
+							<!-- [[${product.description[:80]}]] --> ...</div>
 						<!-- {% else %}  -->
-						<div th:case="*">{{product.description}}</div>
+						<div th:case="*"><!-- {{product.description}} --></div>
 						<!-- {% endif %} -->
 					</div>
 					</p>
 					<div class="d-flex justify-content-between">
-						<span>[[${product.price}]]</span>
-						<button class="btn button-dark"
-							onclick="addItemToBag([[${product.id}]] , '[[${product.name}]]', [[${product.price}]])">Adicionar</button>
+						<span><!-- [[${product.price}]] --></span>
+						<!-- <button class="btn button-dark"
+							onclick="addItemToBag([[${product.id}]] , '[[${product.name}]]', [[${product.price}]])">Adicionar</button> -->
 					</div>
 				</div>
 			</div>
@@ -63,11 +65,5 @@
 	<!-- final do for de categoria -->
 </div>
 <!-- {% endblock %} -->
-<!-- <div th:insert="@{template/rodape.html}"></div> -->
-<main>
-        <div class="container-lg content-container d-flex flex-column">
-            <!--também não entendi {% block content %}{% endblock %} -->
-        </div>
-    </main>
-</body>
-</html>
+<div th:insert="@{cabecalho/rodape.html}"></div>
+

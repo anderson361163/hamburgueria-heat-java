@@ -1,13 +1,14 @@
-{% extends "admin_base.j2" %}
-{% block content %}
+<!-- {% extends "admin_base.j2" %}
+{% block content %} -->
+<div th:insert="@{cabecalho/admin_base.html}"></div>
 <div class="d-flex flex-column align-items-center justify-content-center welcome-container">
     <div>
         <h2>
-            Bem-vindo, {{current_user.name}}
+            Bem-vindo, <!-- [[${current_user.name}]] -->
         </h2>
     </div>
     <div>
-        <img class="logo-index" src="/static/images/logo.png" alt="">
+        <img class="logo-index" src="@{/images/logo.png}" alt="">
     </div>
 <div>
-{% endblock %}
+<div th:insert="@{cabecalho/rodape.html}"></div>
