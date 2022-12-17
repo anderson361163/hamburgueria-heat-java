@@ -1,18 +1,11 @@
 package br.com.impacta.hambuergueriaheat.repository;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.impacta.hambuergueriaheat.model.Cliente;
-import lombok.Getter;
-import lombok.Setter;
+import br.com.impacta.hambuergueriaheat.model.Clientes;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Long>{
+public interface ClienteRepository extends JpaRepository<Clientes, Long>{
 
 }

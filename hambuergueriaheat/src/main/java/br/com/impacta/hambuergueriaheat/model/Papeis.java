@@ -18,5 +18,5 @@ public class Papeis {
 	private Long id;
 	private String code;
 	private String descricao;
-	//private Usuario usuarios;
+
 }
